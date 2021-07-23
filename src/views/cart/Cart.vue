@@ -4,7 +4,10 @@
       <h2>购物车,总数:{{ cartList.length }}</h2>
       <div v-for="goods in cartList" :key="goods.goods_id" class="item">
         <img :src="goods.goods_small_logo" />
-        <p>{{ goods.goods_name }}*{{ goods.count }}</p>
+        <div class="des">
+          <p class="goods_name">{{ goods.goods_name }}</p>
+          <p>数量:{{ goods.count }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -31,6 +34,7 @@ export default {
 <style scoped>
 .cart {
   width: 100%;
+  margin-bottom: 60px;
 }
 .item {
   height: 200px;
@@ -40,9 +44,14 @@ export default {
   margin-bottom: 10px;
 }
 .item img {
-  width: 200px;
+  width: 35%;
 }
-.item p {
-  line-height: 200px;
+.goods_name {
+  height: 80px;
+  line-height: 80px;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

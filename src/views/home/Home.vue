@@ -13,6 +13,7 @@
       :class="{ isFixed: isTabFixed }"
     ></TabControl>
     <GoodsList :goods="allGoods"></GoodsList>
+    <div v-if="isEnd" class="isEnd">-----------我是有底线的-------------</div>
     <back-top class="backTop" @click.native="backClick"></back-top>
   </div>
 </template>
@@ -22,6 +23,11 @@ import NavBar from "../../components/common/navbar/NavBar";
 import Recommend from "./childComps/Recommend";
 import TabControl from "../../components/content/tabControl/TabControl";
 import GoodsList from "../../components/content/goods/GoodsList";
+import {
+  getScrollHeight,
+  getScrollTop,
+  getWindowHeight,
+} from "../../utils/screen";
 
 import {
   getAllGoods,
@@ -52,9 +58,12 @@ export default {
         },
       },
       currentType: "pop",
-      allGoods: null,
+      allGoods: [],
       tabOffstTop: null,
       isTabFixed: false,
+      pagenum: 1,
+      total: 50,
+      isEnd: false,
     };
   },
   components: {
@@ -64,18 +73,18 @@ export default {
     NavBar,
     BackTop,
   },
+  mounted() {
+    window.addEventListener("scroll", this.load);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.load, false);
+  },
   created() {
     this.reqAllGoods();
     this.getRecommend();
     // this.getGoods("pop");
     // this.getGoods("new");
     // this.getGoods("com");
-  },
-  mounted() {
-    //获取tabControl的offsetTop
-    //所有组件都有一个属性$el,这个属性用来获取组件中的元素
-    this.tabOffstTop = this.$refs.tabControl.$el.offsetTop;
-    console.log(this.tabOffstTop);
   },
   methods: {
     /**
@@ -117,10 +126,9 @@ export default {
     // },
 
     //请求全部商品数据
-    reqAllGoods(type) {
-      getAllGoods().then((res) => {
+    reqAllGoods() {
+      getAllGoods(this.pagenum).then((res) => {
         let gs = res;
-        console.log(res);
         for (let n = 0; n <= gs.data.message.goods.length; n++) {
           let g = gs.data.message.goods[n] || {};
           let keys = Object.keys(g);
@@ -132,15 +140,26 @@ export default {
               "http://image3.suning.cn/uimg/b2c/newcatentries/0070078057-000000000136928577_1_400x400.jpg";
           }
         }
-        this.allGoods = gs.data.message.goods;
+        this.allGoods = [...this.allGoods, ...gs.data.message.goods];
       });
     },
     backClick() {
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     },
-    //监听页面滚动,从而在适当的位置使tabControl固定在页面上方
-    contentScoll() {
-      this.isTabFixed = -position.y > this.tabOffstTop;
+    load() {
+      let vm = this;
+      if (getScrollTop() + getWindowHeight() >= getScrollHeight()) {
+        console.log("aaaaa");
+        if (this.allGoods.length < this.total) {
+          //先判断下一页是否有数据
+          this.pagenum += 1; //查询条件的页码+1
+          this.reqAllGoods(); //拉取接口数据
+        } else {
+          //到底了
+          console.log("没有更多数据了");
+          this.isEnd = true;
+        }
+      }
     },
   },
 };
@@ -155,10 +174,14 @@ export default {
 .backTop {
   position: fixed;
   right: 20px;
-  bottom: 60px;
+  bottom: 80px;
 }
 .isFixed {
   position: fixed;
   top: 44px;
+}
+.isEnd {
+  margin: 0px auto 63px auto;
+  width: 250px;
 }
 </style>

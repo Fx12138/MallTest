@@ -31,10 +31,9 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-bottom: 40px;
 }
 .goodsItem {
-  width: 20%;
+  width: 40%;
   margin-bottom: 20px;
   margin-left: 10px;
 }

@@ -26,9 +26,12 @@ export function getGoods(cat_id, pagenum) {
 }
 
 //全部商品
-export function getAllGoods() {
+export function getAllGoods(pagenum) {
   return request({
-    url: '/goods/search'
+    url: '/goods/search',
+    params: {
+      pagenum
+    }
   })
 }
 
