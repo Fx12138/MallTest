@@ -15,6 +15,7 @@
     <GoodsList :goods="allGoods"></GoodsList>
     <div v-if="isEnd" class="isEnd">-----------我是有底线的-------------</div>
     <back-top class="backTop" @click.native="backClick"></back-top>
+    <div class="smallCart">{{ getCartNum }}</div>
   </div>
 </template>
 
@@ -39,6 +40,11 @@ import BackTop from "../../components/content/backTop/backTop.vue";
 
 export default {
   name: "Home",
+  computed: {
+    getCartNum() {
+      return this.$store.state.cartList.length;
+    },
+  },
   data() {
     return {
       muls: null,
@@ -82,6 +88,8 @@ export default {
   created() {
     this.reqAllGoods();
     this.getRecommend();
+    this.$parent.showNav = true;
+    console.log(this.$parent.showNav);
     // this.getGoods("pop");
     // this.getGoods("new");
     // this.getGoods("com");
@@ -143,9 +151,11 @@ export default {
         this.allGoods = [...this.allGoods, ...gs.data.message.goods];
       });
     },
+    //返回顶部
     backClick() {
       document.body.scrollTop = document.documentElement.scrollTop = 0;
     },
+    //下拉加载更多
     load() {
       let vm = this;
       if (getScrollTop() + getWindowHeight() >= getScrollHeight()) {
@@ -173,8 +183,14 @@ export default {
 }
 .backTop {
   position: fixed;
-  right: 20px;
+  width: 80px;
+  height: 30px;
+  line-height: 30px;
+  right: 15px;
   bottom: 80px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 100px;
 }
 .isFixed {
   position: fixed;
@@ -183,5 +199,17 @@ export default {
 .isEnd {
   margin: 0px auto 63px auto;
   width: 250px;
+}
+.smallCart {
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  line-height: 40px;
+  right: 30px;
+  bottom: 120px;
+  background-color: cornflowerblue;
+  border: 1px solid black;
+  border-radius: 100px;
+  text-align: center;
 }
 </style>

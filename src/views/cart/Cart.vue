@@ -22,10 +22,11 @@ export default {
       cartList: null,
     };
   },
+  components: {},
   computed: {
     ...mapGetters(["getCartList"]),
   },
-  activated() {
+  created() {
     this.cartList = this.$store.state.cartList;
   },
 };
