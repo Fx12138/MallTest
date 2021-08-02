@@ -21,13 +21,6 @@ export default {
     },
   },
   created() {
-    var b = 1;
-
-    var a = function () {
-      console.log("函数被调用了");
-    };
-    console.log(a);
-    console.log(b);
     console.log(this.$parent);
   },
 };

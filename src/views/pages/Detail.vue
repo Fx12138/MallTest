@@ -20,7 +20,9 @@ export default {
     this.getGoods(this.goodsId);
   },
   computed: {},
-  created() {},
+  created() {
+    this.$parent.showNav = true;
+  },
   methods: {
     getGoods(goodsId) {
       getGoodsById(goodsId).then((res) => {

@@ -81,6 +81,7 @@ export default {
     },
   },
   created() {
+    this.$parent.showNav = true;
     this.getLeftNav();
   },
 };

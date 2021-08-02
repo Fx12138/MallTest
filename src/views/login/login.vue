@@ -1,5 +1,5 @@
 <template>
-  <div class="box" @click="toHome">登陆界面</div>
+  <div class="box" @click="login">登陆界面</div>
 </template>
 <script>
 export default {
@@ -7,8 +7,10 @@ export default {
     return {};
   },
   methods: {
-    toHome() {
+    login() {
+      window.sessionStorage.setItem("token", "已登录");
       this.$router.replace("/home");
+      this.$parent.showNav = true;
     },
   },
   components: {},

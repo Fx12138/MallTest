@@ -19,11 +19,22 @@ const store = new Vuex.Store({
 
         //商品存在于购物车,数量加1
         [ADD_COUNT](state, payload) {
-            payload.count += 1
+            // payload.count += 1
+            let index = null;
+            let i = state.cartList.length;
+            while (i -= 1) {
+                if (state.cartList[i].goods_id == payload.goods_id) {
+                    index = i;
+                }
+            }
+            let goods = state.cartList.find(item => item.goods_id == payload.goods_id)
+            goods.count = goods.count + 1;
+            Vue.set(state.cartList, index, goods)
         },
 
         //添加商品到购物车
         [ADD_CART](state, payload) {
+            // Vue.set(state.cartList, state.cartList.length + 1, payload)
             state.cartList.push(payload)
         }
     },
@@ -32,7 +43,6 @@ const store = new Vuex.Store({
             return new Promise((resolve, reject) => {
                 //判断商品是否已经在购物车中
                 let oldGoods = context.state.cartList.find(item => item.goods_id == payload.goods_id)
-
                 if (oldGoods) {
                     //商品已经存在于购物车中,数量加1
                     context.commit(ADD_COUNT, oldGoods)

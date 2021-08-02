@@ -27,6 +27,11 @@ export default {
     ...mapGetters(["getCartList"]),
   },
   created() {
+    this.$parent.showNav = true;
+    this.cartList = this.$store.state.cartList;
+  },
+  activated() {
+    //只刷新数据，不改变整体的缓存
     this.cartList = this.$store.state.cartList;
   },
 };
