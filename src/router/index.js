@@ -54,11 +54,63 @@ router.beforeEach((to, from, next) => {
   // next()放行  next('/login')表示强制跳转到/login
   if (to.path === '/login') {
     // 表示要访问的是登录页,不进行拦截
+    // const token = window.sessionStorage.getItem('token')
+
+
+
+    // 函数中的参数为 要获取的cookie键的名称。
+    function getCookie(c_name) {
+      if (document.cookie.length > 0) {
+        let c_start = document.cookie.indexOf(c_name + "=");
+        let c_end;
+        if (c_start != -1) {
+          c_start = c_start + c_name.length + 1;
+          c_end = document.cookie.indexOf(";", c_start);
+          if (c_end == -1) {
+            c_end = document.cookie.length;
+          }
+
+          return unescape(document.cookie.substring(c_start, c_end));
+        }
+      }
+
+      return "";
+    }
+    var token = getCookie('token');
+
+
+    if (token) {
+      return next('/home')
+    }
     return next()
   } else {
     // 表示要访问其他页面,判断是否登录
     // 获取token
-    const token = window.sessionStorage.getItem('token')
+
+    // const token = window.sessionStorage.getItem('token')
+
+
+    function getCookie(c_name) {
+      if (document.cookie.length > 0) {
+        let c_start = document.cookie.indexOf(c_name + "=");
+        let c_end;
+        if (c_start != -1) {
+          c_start = c_start + c_name.length + 1;
+          c_end = document.cookie.indexOf(";", c_start);
+          if (c_end == -1) {
+            c_end = document.cookie.length;
+          }
+
+          return unescape(document.cookie.substring(c_start, c_end));
+        }
+      }
+
+      return "";
+    }
+    var token = getCookie('token');
+
+
+
     if (!token) {
       // sessionStorage中没有token,代表没有登录
       return next('/login')

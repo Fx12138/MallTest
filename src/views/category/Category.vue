@@ -69,7 +69,6 @@ export default {
       });
       this.activeIndex = index;
       categoryClick(index).then((res) => {
-        console.log(res);
         this.categoryContent = res.data.message.goods;
         if (this.categoryContent[0] == null) {
           this.isNull = true;

@@ -12,8 +12,25 @@ export default {
     this.$parent.showNav = true;
   },
   methods: {
+    getCookie(name) {
+      var arr,
+        reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)"); //正则匹配
+      if ((arr = document.cookie.match(reg))) {
+        return unescape(arr[2]);
+      } else {
+        return null;
+      }
+    },
+    delCookie(name) {
+      var exp = new Date();
+      exp.setTime(exp.getTime() - 1);
+      var cval = this.getCookie(name);
+      if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+    },
     logout() {
-      window.sessionStorage.removeItem("token");
+      this.delCookie("token");
+      // window.sessionStorage.removeItem("token");
       this.$parent.showNav = false;
       this.$router.replace("/login");
     },

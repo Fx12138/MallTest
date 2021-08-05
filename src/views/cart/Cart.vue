@@ -40,7 +40,8 @@ export default {
 <style scoped>
 .cart {
   width: 100%;
-  margin-bottom: 60px;
+  height: 100%;
+  margin-bottom: 200px;
 }
 .item {
   height: 200px;
