@@ -1,7 +1,9 @@
-import { request } from "./request";
+import { localReq } from "./request";
 
-export function login() {
-    return request({
-        url: ''
+export function loginByUsername(userFrom) {
+    return localReq({
+        url: '/login',
+        method: 'post',
+        data: userFrom
     })
 }

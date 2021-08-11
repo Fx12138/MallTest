@@ -7,6 +7,7 @@ const Category = () => import('../views/category/Category')
 const Profile = () => import('../views/profile/Mine')
 const Detail = () => import('../views/pages/Detail')
 const Login = () => import('../views/login/login')
+const Pro = () => import('../views/profile/profile')
 
 Vue.use(Router)
 
@@ -33,11 +34,15 @@ const routes = [
   },
   {
     path: '/profile',
-    component: Profile,
+    component: Profile
   },
   {
     path: '/detail/:goodsId',
     component: Detail,
+  },
+  {
+    path: '/pro',
+    component: Pro
   }
 ]
 

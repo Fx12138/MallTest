@@ -21,7 +21,7 @@ export default {
     },
   },
   created() {
-    console.log(this.$parent);
+    // console.log(this.$parent);
   },
 };
 </script>

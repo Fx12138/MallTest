@@ -28,13 +28,17 @@
               ></el-input>
             </el-form-item>
           </div>
-          <el-button type="primary" @click="login('ruleForm')">提交</el-button>
         </el-form>
+      </div>
+      <div class="login-botton">
+        <el-button type="primary" @click="login('ruleForm')">提交</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { loginByUsername } from "../../network/login";
+import { setCookie } from "../../utils/cookieUtil";
 export default {
   data() {
     var validateUsername = (rule, value, callback) => {
@@ -61,10 +65,7 @@ export default {
       },
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
-        username: [
-          { validator: validateUsername, trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
-        ],
+        username: [{ validator: validateUsername, trigger: "blur" }],
         // checkPass: [{ validator: validatePass2, trigger: "blur" }],
         // age: [{ validator: checkAge, trigger: "blur" }],
       },
@@ -74,36 +75,20 @@ export default {
     login(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
-          // 函数中的参数分别为 cookie 的名称、值以及过期天数
-          // function setCookie(c_name, value, expiredays) {
-          //   var exdate = new Date();
-          //   exdate.setDate(exdate.getDate() + expiredays);
-          //   document.cookie =
-          //     c_name +
-          //     "=" +
-          //     escape(value) +
-          //     (expiredays == null ? "" : ";expires=" + exdate.toGMTString());
-          // }
-          // setCookie("name", "zzyn", 1); // cookie过期时间为1天。
-
-          // 如果要设置过期时间以秒为单位
-          function setCookie(c_name, value, expireseconds) {
-            var exdate = new Date();
-            exdate.setTime(exdate.getTime() + expireseconds * 1000);
-            document.cookie =
-              c_name +
-              "=" +
-              escape(value) +
-              (expireseconds == null ? "" : ";expires=" + exdate.toGMTString());
-          }
-          setCookie("token", "zzyn", 3600); //cookie过期时间为一个小时
-
-          // window.sessionStorage.setItem("token", "已登录");
-          this.$router.replace("/home");
-          this.$parent.showNav = true;
+          loginByUsername(this.ruleForm).then((res) => {
+            if (res.data.code == 200) {
+              alert("submit!");
+              setCookie("token", "zzyn", 3600); //cookie过期时间为一个小时
+              console.log(res.data.data);
+              setCookie("userInfo", JSON.stringify(res.data.data), 3600);
+              // window.sessionStorage.setItem("token", "已登录");
+              this.$router.replace("/home");
+              this.$parent.showNav = true;
+            } else {
+              alert(res.data.msg);
+            }
+          });
         } else {
-          alert("shibai!");
           return false;
         }
       });
@@ -140,11 +125,13 @@ export default {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 800px;
-  height: 500px;
+  width: 45%;
+  height: 40%;
   margin-left: -400px;
   margin-top: -250px;
-  border: 1px solid green;
+  /* border: 1px solid green; */
+  /* display: flex;
+  flex-wrap: wrap; */
 }
 .login-form {
   margin: 180px auto auto auto;
@@ -156,6 +143,6 @@ export default {
 }
 .login-botton {
   width: 100px;
-  margin: 50px auto auto auto;
+  margin: 0 auto;
 }
 </style>

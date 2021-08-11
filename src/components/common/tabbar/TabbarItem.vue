@@ -31,10 +31,8 @@ export default {
     itemClick() {
       if (this.path == "/cart") {
         this.$parent.cartIsOpen = true;
-        console.log("购物车界面被打开");
       } else {
         this.$parent.cartIsOpen = false;
-        console.log("购物车界面已关闭");
       }
       this.$router.replace(this.path);
     },
