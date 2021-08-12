@@ -8,17 +8,13 @@
     <div class="middle-box">
       <div class="chart-box">
         <div
-          :class="chart.username == userInfo.username ? 'self' : 'other'"
+          :class="chart.user.username == userInfo.username ? 'self' : 'other'"
           v-for="(chart, index) in chartList"
           :key="index"
         >
           <!-- <div class="photo">{{ chart.username }}说:</div> -->
 
-          <img
-            class="photo"
-            src=" http://img.wanyx.com/softImg/soft/1650_s.jpg "
-            alt="显示网络上的图片"
-          />
+          <img class="photo" :src="chart.user.avatar" alt="显示网络上的图片" />
           <p>{{ chart.mes }}</p>
         </div>
       </div>
@@ -50,6 +46,14 @@ export default {
       },
     };
   },
+  activated() {
+    // this.dataInit();
+    let userInfo = JSON.parse(getCookie("userInfo"));
+    this.userInfo = userInfo;
+  },
+  deactivated() {
+    console.log("用户退出");
+  },
   methods: {
     init() {},
     dataInit() {
@@ -60,7 +64,7 @@ export default {
     sendWords() {
       let mes = this.chartInput;
       let mesPack = {
-        username: this.userInfo.username,
+        user: this.userInfo,
         mes: mes,
       };
       this.chartList.push(mesPack);
@@ -127,6 +131,7 @@ export default {
 }
 .chart-box {
   position: relative;
+  overflow-y: auto;
   width: 100%;
   height: 70%;
   border: 1px solid green;

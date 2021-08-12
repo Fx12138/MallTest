@@ -24,16 +24,22 @@
 <script>
 // import ws from "./ws";
 import { setCookie, getCookie, delCookie } from "../../utils/cookieUtil";
+import { mapGetters } from "vuex";
 export default {
   name: "Mine",
   created() {
+    // this.dataInit();
     this.$parent.showNav = true;
+  },
+  computed: {
+    // ...mapGetters({
+    //   userInfo: "userInfo",
+    // }),
+  },
+  activated() {
     this.dataInit();
-    console.log("页面被创建");
   },
-  destroyed() {
-    console.log("页面被销毁");
-  },
+  deactivated() {},
   data() {
     return {
       items: [
@@ -65,7 +71,9 @@ export default {
     },
     logout() {
       delCookie("token");
+      delCookie("userInfo");
       // window.sessionStorage.removeItem("token");
+      // let userInfo = JSON.parse(getCookie("userInfo"));
       this.$parent.showNav = false;
       this.$router.replace("/login");
     },

@@ -6,6 +6,8 @@ import {
     ADD_COUNT
 } from './mutation-types'
 
+import userInfo from './moudles/userInfo'
+
 //安装插件
 Vue.use(Vuex)
 
@@ -60,6 +62,9 @@ const store = new Vuex.Store({
         getCartList(state) {
             return state.cartList
         }
+    },
+    modules: {
+        userInfo
     }
 })
 

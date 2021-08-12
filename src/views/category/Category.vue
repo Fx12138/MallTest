@@ -25,6 +25,7 @@
 <script>
 import { Loading } from "element-ui";
 import { getCategories, categoryClick } from "../../network/category";
+import { mapGetters } from "vuex";
 export default {
   name: "Category",
   data() {
@@ -37,7 +38,11 @@ export default {
     };
   },
   components: {},
-
+  computed: {
+    ...mapGetters({
+      userInfo: "userInfo",
+    }),
+  },
   methods: {
     /**
      * 获取商品分类
@@ -82,6 +87,9 @@ export default {
   created() {
     this.$parent.showNav = true;
     this.getLeftNav();
+  },
+  activated() {
+    console.log(this.userInfo);
   },
 };
 </script>

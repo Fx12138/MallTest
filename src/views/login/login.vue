@@ -79,9 +79,9 @@ export default {
             if (res.data.code == 200) {
               alert("submit!");
               setCookie("token", "zzyn", 3600); //cookie过期时间为一个小时
-              console.log(res.data.data);
               setCookie("userInfo", JSON.stringify(res.data.data), 3600);
-              // window.sessionStorage.setItem("token", "已登录");
+              //用户信息存入vuex
+              this.$store.commit("setUserInfo", res.data.data);
               this.$router.replace("/home");
               this.$parent.showNav = true;
             } else {
