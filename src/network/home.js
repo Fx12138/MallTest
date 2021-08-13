@@ -43,3 +43,11 @@ export function getGoodsById(goodsId) {
     }
   })
 }
+export function searchGoodsByName(searchContent) {
+  return request({
+    url: '/goods/qsearch',
+    params: {
+      query: searchContent
+    }
+  })
+}

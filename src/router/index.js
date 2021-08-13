@@ -7,7 +7,7 @@ const Category = () => import('../views/category/Category')
 const Profile = () => import('../views/profile/Mine')
 const Detail = () => import('../views/pages/Detail')
 const Login = () => import('../views/login/login')
-const Pro = () => import('../views/profile/profile')
+const Chart = () => import('../views/chart/chart')
 
 Vue.use(Router)
 
@@ -41,8 +41,8 @@ const routes = [
     component: Detail,
   },
   {
-    path: '/pro',
-    component: Pro
+    path: '/chart',
+    component: Chart
   }
 ]
 

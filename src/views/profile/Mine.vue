@@ -28,14 +28,10 @@ import { mapGetters } from "vuex";
 export default {
   name: "Mine",
   created() {
-    // this.dataInit();
+    this.dataInit();
     this.$parent.showNav = true;
   },
-  computed: {
-    // ...mapGetters({
-    //   userInfo: "userInfo",
-    // }),
-  },
+  computed: {},
   activated() {
     this.dataInit();
   },
@@ -46,7 +42,7 @@ export default {
         {
           id: 0,
           title: "个人信息",
-          path: "/pro",
+          path: "/chart",
         },
         {
           id: 1,
@@ -67,7 +63,6 @@ export default {
     dataInit() {
       let userInfo = JSON.parse(getCookie("userInfo"));
       this.userInfo = userInfo;
-      console.log(this.userInfo);
     },
     logout() {
       delCookie("token");
@@ -79,7 +74,7 @@ export default {
     },
     itemClick(path) {
       this.$router.push(path);
-      this.$socket.emit("toChart", this.userInfo);
+      // this.$socket.emit("toChart", this.userInfo);
     },
     sendWords() {
       const that = this;

@@ -16,6 +16,11 @@
         <img src="~assets/img/tabbar/fruit.png" slot="item-icon-active" />
         <div slot="item-name">购物车</div>
       </TabbarItem>
+      <TabbarItem path="/chart" active-color="blue">
+        <img src="~assets/img/tabbar/mine.png" slot="item-icon" />
+        <img src="~assets/img/tabbar/fruit.png" slot="item-icon-active" />
+        <div slot="item-name">聊天</div>
+      </TabbarItem>
       <TabbarItem path="/profile" active-color="blue">
         <img src="~assets/img/tabbar/mine.png" slot="item-icon" />
         <img src="~assets/img/tabbar/fruit.png" slot="item-icon-active" />

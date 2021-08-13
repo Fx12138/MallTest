@@ -7,3 +7,13 @@ export function loginByUsername(userFrom) {
         data: userFrom
     })
 }
+
+export function getUserById(userId) {
+    return localReq({
+        url: '/user',
+        method: 'get',
+        params: {
+            user_id: userId
+        }
+    })
+}

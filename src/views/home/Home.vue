@@ -12,6 +12,11 @@
       ref="tabControl"
       :class="{ isFixed: isTabFixed }"
     ></TabControl>
+    <Search
+      :searchContent.sync="searchContent"
+      @searchChange="searchChange"
+      @handleSearch="searchGoods"
+    />
     <GoodsList :goods="allGoods"></GoodsList>
     <div v-if="isEnd" class="isEnd">-----------我是有底线的-------------</div>
     <back-top class="backTop" @click.native="backClick"></back-top>
@@ -24,6 +29,7 @@ import NavBar from "../../components/common/navbar/NavBar";
 import Recommend from "./childComps/Recommend";
 import TabControl from "../../components/content/tabControl/TabControl";
 import GoodsList from "../../components/content/goods/GoodsList";
+import Search from "../../components/common/search/Search.vue";
 import {
   getScrollHeight,
   getScrollTop,
@@ -35,6 +41,7 @@ import {
   getHomeMul,
   getRecommend,
   getGoods,
+  searchGoodsByName,
 } from "../../network/home";
 import BackTop from "../../components/content/backTop/backTop.vue";
 
@@ -70,7 +77,20 @@ export default {
       pagenum: 1,
       total: 50,
       isEnd: false,
+      searchContent: null,
     };
+  },
+  watch: {
+    val(newVla) {
+      let This = this;
+      //父级组件绑定data值需要用到的修饰符.sync
+      this.$emit("update:data", newVla);
+      clearTimeout(this.time);
+      this.time = setTimeout(() => {
+        //节流完毕之后触发一个自定义函数
+        This.$emit("chang");
+      }, 500);
+    },
   },
   components: {
     GoodsList,
@@ -78,6 +98,7 @@ export default {
     Recommend,
     NavBar,
     BackTop,
+    Search,
   },
   mounted() {
     window.addEventListener("scroll", this.load);
@@ -89,7 +110,6 @@ export default {
     this.reqAllGoods();
     this.getRecommend();
     this.$parent.showNav = true;
-    console.log(this.$parent.showNav);
     // this.getGoods("pop");
     // this.getGoods("new");
     // this.getGoods("com");
@@ -170,6 +190,20 @@ export default {
           this.isEnd = true;
         }
       }
+    },
+    //子组件输入框改变输入内容
+    searchChange(searchContent) {
+      console.log("输入改变" + searchContent);
+      searchGoodsByName(searchContent).then((res) => {
+        console.log(res);
+      });
+    },
+    //点击搜索按钮, 返回结果
+    searchGoods(searchContent) {
+      searchGoodsByName(searchContent).then((res) => {
+        console.log(res);
+        // this.allGoods = res.data.message;
+      });
     },
   },
 };
